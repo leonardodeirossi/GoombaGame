@@ -9,7 +9,10 @@ import com.pardodevelopers.goombagame.Screens.PlayScreen;
 
 public class GoombaGame extends Game {
 	public SpriteBatch batch; // must be public because of libgdx other classes
-	
+
+	public static final int V_WIDTH = 400;
+	public static final int V_HEIGHT = 208;
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
