@@ -5,6 +5,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -19,6 +22,10 @@ public class PlayScreen implements Screen {
     private Viewport gameViewPort;
     private Hud currentGameHud;
 
+    private TmxMapLoader gameMapLoader;
+    private TiledMap gameTiledMap;
+    private OrthoCachedTiledMapRenderer gameMapRender;
+
     public PlayScreen(GoombaGame game) {
         this.game = game;
 
@@ -26,6 +33,12 @@ public class PlayScreen implements Screen {
         gameViewPort = new FitViewport(GoombaGame.V_WIDTH, GoombaGame.V_HEIGHT, gameCamera);
 
         currentGameHud = new Hud(game.batch);
+
+        gameMapLoader = new TmxMapLoader();
+        gameTiledMap = gameMapLoader.load("level1.tmx");
+        gameMapRender = new OrthoCachedTiledMapRenderer(gameTiledMap);
+
+        gameCamera.position.set(gameViewPort.getWorldWidth() / 2, gameViewPort.getWorldHeight() / 2, 0);
     }
 
     @Override
@@ -33,10 +46,25 @@ public class PlayScreen implements Screen {
 
     }
 
+    public void handleInput(float deltaTime) {
+        if (Gdx.input.isTouched())
+            gameCamera.position.x += 100 * deltaTime;
+    }
+
+    public void update(float deltaTime) {
+        handleInput(deltaTime);
+        gameCamera.update();
+        gameMapRender.setView(gameCamera);
+    }
+
     @Override
     public void render(float delta) {
+        update(delta);
+
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        gameMapRender.render();
 
         game.batch.setProjectionMatrix(currentGameHud.hudStage.getCamera().combined);
         currentGameHud.hudStage.draw();

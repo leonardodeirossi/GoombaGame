@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.pardodevelopers.goombagame.Screens.PlayScreen;
 
 public class GoombaGame extends Game {
-	public SpriteBatch batch; // must be public because of libgdx other classes
+	public SpriteBatch batch;
 
 	public static final int V_WIDTH = 400;
 	public static final int V_HEIGHT = 208;
