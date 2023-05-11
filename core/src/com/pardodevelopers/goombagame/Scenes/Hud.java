@@ -4,11 +4,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
 import com.pardodevelopers.goombagame.GoombaGame;
 
 public class Hud {
@@ -45,7 +48,12 @@ public class Hud {
         this.timeLabel = new Label("TIME", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         this.levelLabel = new Label("1-1", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         this.worldLabel = new Label("WORLD", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        this.goombaLabel = new Label("GOOMBA", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+
+        if (GoombaGame.globalPlayUser.getUserId() != "null") {
+            this.goombaLabel = new Label(GoombaGame.globalPlayUser.getUserDisplayName(), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        } else {
+            this.goombaLabel = new Label("GOOMBA", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        }
 
         gameTable.add(goombaLabel).expandX().padTop(10);
         gameTable.add(worldLabel).expandX().padTop(10);
